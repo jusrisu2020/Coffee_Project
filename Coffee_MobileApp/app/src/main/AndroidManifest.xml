@@ -12,11 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderDrinkApp">
         <activity
+            android:name=".Activities.Register2ndActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.CustomerActivity"
             android:exported="false" />
         <activity android:name=".Activities.HomeActivity" />
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.WelcomeActivity" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

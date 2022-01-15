@@ -15,12 +15,11 @@
         android:orientation="vertical"
         >
         <ImageView
-            android:id="@+id/img_signup_back"
+            android:id="@+id/imgv_Register2ndBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_arrow_back_24"
             android:padding="5dp"
-            android:onClick="backFromRegister2nd"
             />
 
         <RelativeLayout
@@ -72,7 +71,7 @@
                 />
 
             <RadioGroup
-                android:id="@+id/rg_signup_GioiTinh"
+                android:id="@+id/rg_RegisterGender"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -80,21 +79,21 @@
                 >
 
                 <RadioButton
-                    android:id="@+id/rd_signup_Nam"
+                    android:id="@+id/rb_GenderMale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nam"
                     android:layout_marginRight="10dp"/>
 
                 <RadioButton
-                    android:id="@+id/rd_signup_Nu"
+                    android:id="@+id/rb_GenderFeMale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nữ"
                     android:layout_marginRight="10dp"/>
 
                 <RadioButton
-                    android:id="@+id/rd_signup_Khac"
+                    android:id="@+id/rb_GenderOther"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Khác" />
@@ -115,7 +114,7 @@
                 android:textSize="18sp"
                 />
             <DatePicker
-                android:id="@+id/dt_signup_NgaySinh"
+                android:id="@+id/dp_DateOfBirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:datePickerMode="spinner"
@@ -127,7 +126,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_signup_next"
+            android:id="@+id/btn_Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

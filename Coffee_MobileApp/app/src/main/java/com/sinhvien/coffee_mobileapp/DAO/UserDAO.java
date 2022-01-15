@@ -14,9 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    Database db;
     public int CheckLogin(String userName, String password){
         int idUser = 0;
-        Database db = new Database();
+        db = new Database();
         Connection conn = db.getConnect();
         try {
             if(conn != null){
@@ -30,5 +31,20 @@ public class UserDAO {
             Log.e("Error",e.getMessage());
         }
         return idUser;
+    }
+
+    public boolean CreateUser(UserDTO userDTO){
+        db = new Database();
+        Connection conn = db.getConnect();
+        try {
+            if(conn != null){
+                Statement statement = conn.createStatement();
+                statement.executeUpdate("insert into users(full_name, gender, phone, date_of_birth, status, user_name, password) " + "values('"+userDTO.getFullName()+"',"+userDTO.getGender()+",'"+userDTO.getPhone()+"','"+userDTO.getDateOfBirth()+"',1,'"+userDTO.getUserName()+"','"+userDTO.getPassword()+"')");
+                return true;
+            }
+        }catch (Exception e){
+            Log.e("Error",e.getMessage());
+        }
+        return false;
     }
 }

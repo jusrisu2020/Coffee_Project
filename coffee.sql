@@ -5,7 +5,7 @@ create table users(
 	-- id: 1.Admin, 2.Customer
 	id int auto_increment primary key,
     full_name varchar(300),
-    -- gender: 1.Nam, 2.Nữ
+    -- gender: 1.Nam, 2.Nữ, 3. khác
     gender int,
     phone varchar(20),
     date_of_birth date,

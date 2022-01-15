@@ -1,6 +1,6 @@
 package com.sinhvien.coffee_mobileapp.Activities;
 
-import static com.sinhvien.coffee_mobileapp.R.*;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -11,93 +11,85 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinhvien.coffee_mobileapp.R;
 
 import java.util.regex.Pattern;
 
+import static com.sinhvien.coffee_mobileapp.R.*;
+
 public class RegisterActivity extends AppCompatActivity {
 
-    ImageView IMG_signup_back;
-    Button btn_RegisterNext;
-    TextView TXT_signup_title;
-    TextInputLayout TXTL_signup_HoVaTen, TXTL_signup_TenDN, TXTL_signup_Email, TXTL_signup_SDT, TXTL_signup_MatKhau;
-//    public static final String BUNDLE = "BUNDLE";
-//    private static final Pattern PASSWORD_PATTERN =
-//            Pattern.compile("^" +
-//                    //"(?=.*[@#$%^&+=])" +     // at least 1 special character
-//                    "(?=\\S+$)" +            // no white spaces
-//                    ".{6,}" +                // at least 4 characters
-//                    "$");
+    ImageView imgv_Login_Back;
+    Button btnRegisterNext;
+    TextInputLayout tipl_FullName, tipl_RegisterPhone, tipl_RegisterUserName, tipl_RegisterPassword, tipl_RegisterRePassword;
+    public static final String DataRegisterUserBundel = "DataRegisterUserBundel";
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    //"(?=.*[@#$%^&+=])" +     // at least 1 special character
+                    "(?=\\S+$)" +            // no white spaces
+                    ".{6,}" +                // at least 4 characters
+                    "$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.register_layout);
 
-        btn_RegisterNext = findViewById(id.btn_RegisterNext);
         //region lấy đối tượng view
-//        IMG_signup_back = (ImageView)findViewById(id.img_signup_back);
-//        BTN_signup_next = (Button)findViewById(id.btn_signup_next);
-//        TXT_signup_title = (TextView)findViewById(id.txt_signup_title);
-//        TXTL_signup_HoVaTen = (TextInputLayout)findViewById(id.txtl_signup_HoVaTen);
-//        TXTL_signup_TenDN = (TextInputLayout)findViewById(id.txtl_signup_TenDN);
-//        TXTL_signup_Email = (TextInputLayout)findViewById(id.txtl_signup_Email);
-//        TXTL_signup_SDT = (TextInputLayout)findViewById(id.txtl_signup_SDT);
-//        TXTL_signup_MatKhau = (TextInputLayout)findViewById(id.txtl_signup_MatKhau);
+        imgv_Login_Back = (ImageView)findViewById(id.imgv_Login_Back);
+        btnRegisterNext = (Button)findViewById(id.btnRegisterNext);
+        tipl_FullName = (TextInputLayout)findViewById(id.tipl_FullName);
+        tipl_RegisterPhone = (TextInputLayout)findViewById(id.tipl_RegisterPhone);
+        tipl_RegisterUserName = (TextInputLayout)findViewById(id.tipl_RegisterUserName);
+        tipl_RegisterPassword = (TextInputLayout)findViewById(id.tipl_RegisterPassword);
+        tipl_RegisterRePassword = (TextInputLayout)findViewById(id.tipl_RegisterRePassword);
         //endregion
 
-        btn_RegisterNext.setOnClickListener(new View.OnClickListener() {
+        btnRegisterNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //kiểm tra validate false => phải thỏa đk validate
 //                if(!validateFullName() | !validateUserName() | !validateEmail() | !validatePhone() | !validatePassWord()){
 //                    return;
 //                }
-//                String hoTen = TXTL_signup_HoVaTen.getEditText().getText().toString();
-//                String tenDN = TXTL_signup_TenDN.getEditText().getText().toString();
-//                String eMail = TXTL_signup_Email.getEditText().getText().toString();
-//                String sDT = TXTL_signup_SDT.getEditText().getText().toString();
-//                String matKhau = TXTL_signup_MatKhau.getEditText().getText().toString();
+                String fullName = tipl_FullName.getEditText().getText().toString();
+                String phone = tipl_RegisterPhone.getEditText().getText().toString();
+                String userName = tipl_RegisterUserName.getEditText().getText().toString();
+                String password = tipl_RegisterPassword.getEditText().getText().toString();
+                String rePassword = tipl_RegisterRePassword.getEditText().getText().toString();
 
-//                byBundleNextSignupScreen(hoTen,tenDN,eMail,sDT,matKhau);
+                byBundleNextSignupScreen(fullName,phone,userName,password);
             }
         });
-
     }
 
     //Hàm quay về màn hình trước
-//    public void backFromRegister(View view){
+    public void backFromRegister(View view){
+        Intent intent = new Intent(getApplicationContext(),WelcomeActivity.class);
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(findViewById(id.layoutRegister),"transition_signup");
 
-//        Intent intent = new Intent(getApplicationContext(),WelcomeActivity.class);
-//        Pair[] pairs = new Pair[1];
-//        pairs[0] = new Pair<View, String>(findViewById(id.layoutRegister),"transition_signup");
-//
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(RegisterActivity.this,pairs);
-//            startActivity(intent,options.toBundle());
-//        }else {
-//            startActivity(intent);
-//        }
-//    }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(RegisterActivity.this,pairs);
+            startActivity(intent,options.toBundle());
+        }else {
+            startActivity(intent);
+        }
+    }
 
     //truyền dữ liệu qua trang đk thứ 2 bằng bundle
-//    public void byBundleNextSignupScreen(String hoTen, String tenDN, String eMail, String sDT, String matKhau){
-//
-//        Intent intent = new Intent(getApplicationContext(),Register2ndActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("hoten",hoTen);
-//        bundle.putString("tendn",tenDN);
-//        bundle.putString("email",eMail);
-//        bundle.putString("sdt",sDT);
-//        bundle.putString("matkhau",matKhau);
-//        intent.putExtra(BUNDLE,bundle);
-//
-//        startActivity(intent);
-//        overridePendingTransition(anim.slide_in_right, anim.slide_out_left);
-//    }
+    public void byBundleNextSignupScreen(String fullName, String phone, String userName, String password){
+
+        Intent intent = new Intent(getApplicationContext(), Register2ndActivity.class);
+        Bundle bundleData = new Bundle();
+        bundleData.putString("fullName",fullName);
+        bundleData.putString("phone",phone);
+        bundleData.putString("userName",userName);
+        bundleData.putString("password",password);
+        intent.putExtra(DataRegisterUserBundel,bundleData);
+        startActivity(intent);
+        overridePendingTransition(anim.slide_in_right, anim.slide_out_left);
+    }
 
     //region Validate field
 //    private boolean validateFullName(){
@@ -112,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
 //            return true;
 //        }
 //    }
-
+//
 //    private boolean validateUserName(){
 //        String val = TXTL_signup_TenDN.getEditText().getText().toString().trim();
 //        String checkspaces = "\\A\\w{1,50}\\z";
@@ -169,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
 //            return true;
 //        }
 //    }
-
+//
 //    private boolean validatePassWord(){
 //        String val = TXTL_signup_MatKhau.getEditText().getText().toString().trim();
 //

@@ -1,147 +1,105 @@
 package com.sinhvien.coffee_mobileapp.Activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-//import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-//import com.sinhvien.orderdrinkapp.DAO.QuyenDAO;
-//import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.coffee_mobileapp.DAO.UserDAO;
 import com.sinhvien.coffee_mobileapp.DTO.UserDTO;
 import com.sinhvien.coffee_mobileapp.R;
 
 import java.util.Calendar;
 
-public class Register2ndActivity extends AppCompatActivity {
+public class Register2ndActivity extends AppCompatActivity{
 
-    RadioGroup RG_signup_GioiTinh;
-    DatePicker DT_signup_NgaySinh;
-    Button BTN_signup_next;
-    String hoTen,tenDN,eMail,sDT,matKhau,gioiTinh;
-//    NhanVienDAO nhanVienDAO;
+    ImageView imgv_Register2ndBack;
+    RadioGroup rg_RegisterGender;
+    DatePicker dp_DateOfBirth;
+    Button btn_Register;
+    String fullName, phone,userName,password, dateOfBirth;
+    int gender = 0;
+    UserDAO userDAO;
 //    QuyenDAO quyenDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register2nd_layout);
 
-        //lấy đối tượng view
-        RG_signup_GioiTinh = (RadioGroup)findViewById(R.id.rg_signup_GioiTinh);
-        DT_signup_NgaySinh = (DatePicker)findViewById(R.id.dt_signup_NgaySinh);
-        BTN_signup_next = (Button)findViewById(R.id.btn_signup_next);
+        imgv_Register2ndBack = findViewById(R.id.imgv_Register2ndBack);
+        rg_RegisterGender = (RadioGroup) findViewById(R.id.rg_RegisterGender);
+        dp_DateOfBirth = (DatePicker) findViewById(R.id.dp_DateOfBirth);
+        btn_Register = (Button) findViewById(R.id.btn_Register);
 
         //lấy dữ liệu từ bundle của register1
-//        Bundle bundle = getIntent().getBundleExtra(com.sinhvien.orderdrinkapp.Activities.RegisterActivity.BUNDLE);
-//        if(bundle != null) {
-//             hoTen = bundle.getString("hoten");
-//             tenDN = bundle.getString("tendn");
-//             eMail = bundle.getString("email");
-//             sDT = bundle.getString("sdt");
-//             matKhau = bundle.getString("matkhau");
-//        }
-//        //khởi tạo kết nối csdl
-//        nhanVienDAO = new NhanVienDAO(this);
+        Bundle bundle = getIntent().getBundleExtra(RegisterActivity.DataRegisterUserBundel);
+        if (bundle != null) {
+            fullName = bundle.getString("fullName");
+            phone = bundle.getString("phone");
+            userName = bundle.getString("userName");
+            password = bundle.getString("password");
+            //khởi tạo kết nối csdl
+            userDAO = new UserDAO();
 //        quyenDAO = new QuyenDAO(this);
 
-        BTN_signup_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!validateAge() | !validateGender()){
-                    return;
-                }
-
-                //lấy các thông tin còn lại
-                switch (RG_signup_GioiTinh.getCheckedRadioButtonId()){
-                    case R.id.rd_signup_Nam:
-                        gioiTinh = "Nam"; break;
-                    case R.id.rd_signup_Nu:
-                        gioiTinh = "Nữ"; break;
-                    case R.id.rd_signup_Khac:
-                        gioiTinh = "Khác"; break;
-                }
-                String ngaySinh = DT_signup_NgaySinh.getDayOfMonth() + "/" + (DT_signup_NgaySinh.getMonth() + 1)
-                        +"/"+DT_signup_NgaySinh.getYear();
-
-                //truyền dữ liệu vào obj nhanvienDTO
-//                UserDTO nhanVienDTO = new NhanVienDTO();
-//                nhanVienDTO.setHOTENNV(hoTen);
-//                nhanVienDTO.setTENDN(tenDN);
-//                nhanVienDTO.setEMAIL(eMail);
-//                nhanVienDTO.setSDT(sDT);
-//                nhanVienDTO.setMATKHAU(matKhau);
-//                nhanVienDTO.setGIOITINH(gioiTinh);
-//                nhanVienDTO.setNGAYSINH(ngaySinh);
-
-                //nếu nhân viên đầu tiên đăng ký sẽ có quyền quản lý
-//                if(!nhanVienDAO.KtraTonTaiNV()){
-//                    quyenDAO.ThemQuyen("Quản lý");
-//                    quyenDAO.ThemQuyen("Nhân viên");
-//                    nhanVienDTO.setMAQUYEN(1);
-//                }else {
-//                    nhanVienDTO.setMAQUYEN(2);
+            btn_Register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                if(!validateAge() | !validateGender()){
+//                    return;
 //                }
 
-                //Thêm nv dựa theo obj nhanvienDTO
-//                long ktra = nhanVienDAO.ThemNhanVien(nhanVienDTO);
-//                if(ktra != 0){
-//                    Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
-//                    callLoginFromRegister();
-//                }else{
-//                    Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();
-//                }
-            }
-        });
+                    //lấy các thông tin còn lại
+                    switch (rg_RegisterGender.getCheckedRadioButtonId()) {
+                        case R.id.rb_GenderMale:
+                            gender = 1;
+                            break;
+                        case R.id.rb_GenderFeMale:
+                            gender = 2;
+                            break;
+                        case R.id.rb_GenderOther:
+                            gender = 3;
+                            break;
+                    }
+                    dateOfBirth = dp_DateOfBirth.getYear() + "-" + (dp_DateOfBirth.getMonth() + 1) + "-" + dp_DateOfBirth.getDayOfMonth();
 
-    }
+                    //truyền dữ liệu vào obj nhanvienDTO
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setFullName(fullName);
+                    userDTO.setGender(gender);
+                    userDTO.setPhone(phone);
+                    userDTO.setDateOfBirth(dateOfBirth);
+                    userDTO.setUserName(userName);
+                    userDTO.setPassword(password);
 
-    //Hàm quay về màn hình trước
-//    public void backFromRegister2nd(View view){
-//        Intent intent = new Intent(getApplicationContext(), com.sinhvien.orderdrinkapp.Activities.RegisterActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
-    }
-
-    //Hàm chuyển màn hình khi hoàn thành
-    public void callLoginFromRegister(){
-        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-    //region Validate field
-    private boolean validateGender(){
-        if(RG_signup_GioiTinh.getCheckedRadioButtonId() == -1){
-            Toast.makeText(this,"Hãy chọn giới tính",Toast.LENGTH_SHORT).show();
-            return false;
-        }else {
-            return true;
+                    //Thêm nv dựa theo obj nhanvienDTO
+                    if (userDAO.CreateUser(userDTO)) {
+                        Toast.makeText(Register2ndActivity.this, getResources().getString(R.string.add_sucessful), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    } else {
+                        Toast.makeText(Register2ndActivity.this, getResources().getString(R.string.add_failed), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            imgv_Register2ndBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
     }
-
-    private boolean validateAge(){
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        int userAge = DT_signup_NgaySinh.getYear();
-        int isAgeValid = currentYear - userAge;
-
-        if(isAgeValid < 10){
-            Toast.makeText(this,"Bạn không đủ tuổi đăng ký!",Toast.LENGTH_SHORT).show();
-            return false;
-        }else {
-            return true;
-        }
-    }
-    //endregion
 }
