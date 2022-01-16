@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderDrinkApp">
         <activity
+            android:name=".Activities.DetailStatisticActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Register2ndActivity"
             android:exported="false" />
         <activity

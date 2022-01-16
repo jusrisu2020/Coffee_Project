@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/activity_customer.xml" value="0.20520833333333333" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/custom_layout_displaystaff.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/displayuser_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/fragment_display_home.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/home_layout.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/login_layout.xml" value="0.20520833333333333" />

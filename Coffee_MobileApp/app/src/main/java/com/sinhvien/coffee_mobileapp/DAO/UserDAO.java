@@ -2,6 +2,7 @@ package com.sinhvien.coffee_mobileapp.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.sinhvien.coffee_mobileapp.DTO.UserDTO;
@@ -46,5 +47,30 @@ public class UserDAO {
             Log.e("Error",e.getMessage());
         }
         return false;
+    }
+
+    public List<UserDTO> getUsers(){
+        List<UserDTO> listUser = new ArrayList<UserDTO>();
+        db = new Database();
+        Connection conn = db.getConnect();
+        try {
+            if(conn != null){
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS");
+                while (resultSet.next()){
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setId(resultSet.getInt(1));
+                    userDTO.setFullName(resultSet.getString(2));
+                    userDTO.setGender(resultSet.getInt(3));
+                    userDTO.setPhone(resultSet.getString(4));
+                    userDTO.setDateOfBirth(resultSet.getString(5));
+                    userDTO.setStatus(resultSet.getInt(6));
+                    listUser.add(userDTO);
+                }
+            }
+        }catch (Exception e){
+            Log.e("Error",e.getMessage());
+        }
+        return listUser;
     }
 }

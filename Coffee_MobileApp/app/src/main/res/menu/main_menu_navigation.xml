@@ -25,8 +25,8 @@
                         android:icon="@drawable/ic_baseline_restaurant_menu_24"/>
 
                     <item
-                        android:id="@+id/nav_staff"
-                        android:title="Nhân viên"
+                        android:id="@+id/nav_user"
+                        android:title="Người dùng"
                         android:icon="@drawable/ic_baseline_person_24"/>
                 </group>
             </menu>

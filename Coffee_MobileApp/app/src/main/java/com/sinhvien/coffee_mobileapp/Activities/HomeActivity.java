@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import com.sinhvien.coffee_mobileapp.Fragment.DisplayHomeFragment;
+import com.sinhvien.coffee_mobileapp.Fragment.DisplayStatisticFragment;
+import com.sinhvien.coffee_mobileapp.Fragment.DisplayUserFragment;
 import com.sinhvien.coffee_mobileapp.R;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -59,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
         //Tụ động gán tên nv đăng nhập qua Extras
         Intent intent = getIntent();
@@ -77,10 +80,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setCheckedItem(R.id.nav_home);
     }
 
+//    main_menu_navigation
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
+        int id = item.getItemId();
+        switch (id){
             case R.id.nav_home:
                 FragmentTransaction tranDisplayHome = fragmentManager.beginTransaction();
                 DisplayHomeFragment displayHomeFragment = new DisplayHomeFragment();
@@ -88,6 +93,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 tranDisplayHome.commit();
                 navigationView.setCheckedItem(item.getItemId());
                 drawerLayout.closeDrawers();
+                break;
+
+            case R.id.nav_statistic:
+                //hiển thị tương ứng trên navigation
+                FragmentTransaction tranDisplayStatistic = fragmentManager.beginTransaction();
+                DisplayStatisticFragment displayStatisticFragment = new DisplayStatisticFragment();
+                tranDisplayStatistic.replace(R.id.contentView,displayStatisticFragment);
+                tranDisplayStatistic.commit();
+                navigationView.setCheckedItem(item.getItemId());
+                drawerLayout.closeDrawers();
+                break;
+
+            case R.id.nav_user:
+                //hiển thị tương ứng trên navigation
+                FragmentTransaction tranDisplayUser = fragmentManager.beginTransaction();
+                DisplayUserFragment displayUserFragment = new DisplayUserFragment();
+                tranDisplayUser.replace(R.id.contentView,displayUserFragment);
+                tranDisplayUser.commit();
+                navigationView.setCheckedItem(item.getItemId());
+                drawerLayout.closeDrawers();
+                break;
+
+            case R.id.nav_logout:
+                //gọi activity ra trang welcome
+                Intent intent = new Intent(getApplicationContext(),WelcomeActivity.class);
+                startActivity(intent);
                 break;
         }
         return false;
