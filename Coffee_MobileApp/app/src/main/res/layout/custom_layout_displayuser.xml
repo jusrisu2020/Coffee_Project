@@ -51,16 +51,6 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/muli"
                 />
-            <TextView
-                android:id="@+id/tv_UserTypeUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Quản Lý"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/muli"
-                />
 
             <TextView
                 android:id="@+id/tv_UserPhone"

@@ -73,4 +73,24 @@ public class UserDAO {
         }
         return listUser;
     }
+
+    public boolean CheckUpdateStatusUser(int userId,int CheckStatusCurrentUser){
+        db = new Database();
+        Connection conn = db.getConnect();
+        try {
+            if(conn != null){
+                if (CheckStatusCurrentUser == 1){
+                    Statement statement = conn.createStatement();
+                    statement.executeUpdate("UPDATE USERS SET status = 2 WHERE ID = " + userId);
+                }else{
+                    Statement statement = conn.createStatement();
+                    statement.executeUpdate("UPDATE USERS SET status = 1 WHERE ID = " + userId);
+                }
+                return true;
+            }
+        }catch (Exception e){
+            Log.e("Error",e.getMessage());
+        }
+        return false;
+    }
 }

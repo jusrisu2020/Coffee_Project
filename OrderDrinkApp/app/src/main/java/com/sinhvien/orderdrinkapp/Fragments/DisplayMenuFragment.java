@@ -194,4 +194,5 @@ public class DisplayMenuFragment extends Fragment {
         adapterDisplayMenu.notifyDataSetChanged();
     }
 
+
 }

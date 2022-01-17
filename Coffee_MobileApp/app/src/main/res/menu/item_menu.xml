@@ -16,4 +16,8 @@
         android:id="@+id/itAddStaff"
         android:title="Thêm nhân viên"
         />
+    <item
+        android:id="@+id/itUpdateStatus"
+        android:title="Cập nhật trạng thái tài khoản"
+        />
 </menu>

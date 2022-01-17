@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import com.sinhvien.coffee_mobileapp.Fragment.DisplayCategoryFragment;
 import com.sinhvien.coffee_mobileapp.Fragment.DisplayHomeFragment;
 import com.sinhvien.coffee_mobileapp.Fragment.DisplayStatisticFragment;
+import com.sinhvien.coffee_mobileapp.Fragment.DisplayTableFragment;
 import com.sinhvien.coffee_mobileapp.Fragment.DisplayUserFragment;
 import com.sinhvien.coffee_mobileapp.R;
 
@@ -101,6 +103,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 DisplayStatisticFragment displayStatisticFragment = new DisplayStatisticFragment();
                 tranDisplayStatistic.replace(R.id.contentView,displayStatisticFragment);
                 tranDisplayStatistic.commit();
+                navigationView.setCheckedItem(item.getItemId());
+                drawerLayout.closeDrawers();
+                break;
+            case R.id.nav_table:
+                FragmentTransaction tranDisplayTable = fragmentManager.beginTransaction();
+                DisplayTableFragment displayTableFragment = new DisplayTableFragment();
+                tranDisplayTable.replace(R.id.contentView,displayTableFragment);
+                tranDisplayTable.commit();
+                navigationView.setCheckedItem(item.getItemId());
+                drawerLayout.closeDrawers();
+                break;
+
+            case R.id.nav_category:
+                FragmentTransaction tranDisplayCategory = fragmentManager.beginTransaction();
+                DisplayCategoryFragment displayCategoryFragment = new DisplayCategoryFragment();
+                tranDisplayCategory.replace(R.id.contentView,displayCategoryFragment);
+                tranDisplayCategory.commit();
                 navigationView.setCheckedItem(item.getItemId());
                 drawerLayout.closeDrawers();
                 break;

@@ -49,34 +49,46 @@ public class AdapterDisplayUser extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(layout,parent,false);
 
-//            viewHolder.imgv_UserAvatar = (ImageView)view.findViewById(R.id.imgv_UserAvatar);
-//            viewHolder.txt_customstaff_TenNV = (TextView)view.findViewById(R.id.txt_customstaff_TenNV);
-//            viewHolder.txt_customstaff_TenQuyen = (TextView)view.findViewById(R.id.txt_customstaff_TenQuyen);
-//            viewHolder.txt_customstaff_SDT = (TextView)view.findViewById(R.id.txt_customstaff_SDT);
-//            viewHolder.txt_customstaff_Email = (TextView)view.findViewById(R.id.txt_customstaff_Email);
-
-//                    tv_UserFullName
-//            tv_UserGender
-//                    tv_UserTypeUser
-//            tv_UserPhone
-//                    tv_UserDateOfBirth
-//            tv_UserStatus
-
+            viewHolder.imgv_UserAvatar = (ImageView)view.findViewById(R.id.imgv_UserAvatar);
+            viewHolder.tv_UserFullName = (TextView)view.findViewById(R.id.tv_UserFullName);
+            viewHolder.tv_UserGender = (TextView)view.findViewById(R.id.tv_UserGender);
+            viewHolder.tv_UserPhone = (TextView)view.findViewById(R.id.tv_UserPhone);
+            viewHolder.tv_UserDateOfBirth = (TextView)view.findViewById(R.id.tv_UserDateOfBirth);
+            viewHolder.tv_UserStatus = (TextView)view.findViewById(R.id.tv_UserStatus);
             view.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
         UserDTO userDTO = listUserDTO.get(position);
 
-        viewHolder.txt_customstaff_TenNV.setText(userDTO.getFullName());
-        viewHolder.txt_customstaff_SDT.setText(userDTO.getPhone());
-//        viewHolder.txt_customstaff_Email.setText(userDTO.getGender());
+        viewHolder.tv_UserFullName.setText(userDTO.getFullName());
 
+        switch (userDTO.getGender()){
+            case 1:
+                viewHolder.tv_UserGender.setText("Nam");
+                break;
+            case 2:
+                viewHolder.tv_UserGender.setText("Nữ");
+                break;
+            case 3:
+                viewHolder.tv_UserGender.setText("Khác");
+                break;
+        }
+        viewHolder.tv_UserPhone.setText(userDTO.getPhone());
+        viewHolder.tv_UserDateOfBirth.setText(userDTO.getDateOfBirth());
+        switch (userDTO.getStatus()){
+            case 1:
+                viewHolder.tv_UserStatus.setText("Đang hoạt động");
+                break;
+            case 2:
+                viewHolder.tv_UserStatus.setText("Bị khóa");
+                break;
+        }
         return view;
     }
 
     public class ViewHolder{
-        ImageView img_customstaff_HinhNV;
-        TextView txt_customstaff_TenNV, txt_customstaff_TenQuyen,txt_customstaff_SDT, txt_customstaff_Email;
+        ImageView imgv_UserAvatar;
+        TextView tv_UserFullName, tv_UserGender, tv_UserPhone, tv_UserDateOfBirth, tv_UserStatus;
     }
 }

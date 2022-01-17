@@ -7,6 +7,7 @@
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/custom_layout_displaystaff.xml" value="0.36666666666666664" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/custom_layout_displayuser.xml" value="0.36666666666666664" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/displayuser_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/edittable_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/fragment_display_home.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/home_layout.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/login_layout.xml" value="0.20520833333333333" />
@@ -16,7 +17,10 @@
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/splash_layout.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/layout/welcome_layout.xml" value="0.20520833333333333" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/menu/edit_context_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/menu/edit_delete_context_menu.xml" value="0.20520833333333333" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/menu/item_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/menu/main_menu_navigation.xml" value="0.20520833333333333" />
+        <entry key="..\:/xampp/htdocs/Coffee_Project/Coffee_MobileApp/app/src/main/res/menu/update_status_context_menu.xml" value="0.20520833333333333" />
       </map>
     </option>
   </component>

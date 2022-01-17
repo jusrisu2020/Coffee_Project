@@ -12,6 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderDrinkApp">
         <activity
+            android:name=".Activities.EditTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AddCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AddMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AmountMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.AddTableActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.DetailStatisticActivity"
             android:exported="false" />
         <activity

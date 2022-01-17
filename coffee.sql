@@ -21,6 +21,8 @@ values('Trần Minh Trí',1,'0357021254','2000-07-12',1,'admin','1');
 insert into users(full_name, gender, phone, date_of_birth, status, user_name, password) 
 values('Nguyễn Văn A',1,'0357021254','2000-07-12',1,'nva','1');
 
+UPDATE USERS SET status = 2 WHERE ID = 2;
+
 create table categories(
 	id int auto_increment primary key,
     category_name varchar(300)
@@ -43,6 +45,8 @@ values(1,'Cà phê đá', 'Cà phê uống bao phê',15000);
 insert into drinks(category_id, drink_name, description, price) 
 values(1,'Cà phê đá', 'Cà phê sữa đá uống bao đã',20000);
 
+
+
 create table tables(
 	id int auto_increment primary key,
 	table_name varchar(20),
@@ -55,17 +59,21 @@ insert into tables(table_name) values('Bàn 2');
 insert into tables(table_name) values('Bàn 3');
 insert into tables(table_name) values('Bàn 4');
 
+UPDATE TABLES SET TABLE_NAME = 'Bàn 4s' WHERE ID = 4;
+
+DELETE FROM TABLES WHERE ID = 5;
+
 create table orders(
 	id int auto_increment primary key,
 	table_id int, FOREIGN KEY (table_id) REFERENCES tables(id),
     staff_id int, FOREIGN KEY (staff_id) REFERENCES users(id),
     -- status: 1.Chưa thanh toán, 2.Đã thanh toán
     status int default 1,
-    booking_date datetime,
+    booking_date text,
     total float
 );
-
-insert into orders(table_id, staff_id, booking_date,total) values(1,1,now(),15000);
+SELECT * FROM ORDERS WHERE BOOKING_DATE LIKE '17';
+insert into orders(table_id, staff_id, booking_date,total) values(1,1,date_format(curdate(),'%d-%m-%Y'),15000);
 
 create table order_details(
 	order_id int, FOREIGN KEY (order_id) REFERENCES orders(id),
