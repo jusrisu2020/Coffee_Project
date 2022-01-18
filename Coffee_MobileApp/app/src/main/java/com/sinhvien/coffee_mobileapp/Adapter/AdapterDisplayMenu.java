@@ -62,18 +62,18 @@ public class AdapterDisplayMenu extends BaseAdapter {
         }
         DrinkDTO drinkDTO = listDrink.get(position);
         viewholder.txt_custommenu_TenMon.setText(drinkDTO.getDrinkName());
-        viewholder.txt_custommenu_GiaTien.setText(drinkDTO.getPrice()+" VNĐ");
+        viewholder.txt_custommenu_GiaTien.setText(String.valueOf(drinkDTO.getPrice()));
 
         //hiển thị tình trạng của món
 
         //lấy hình ảnh
-//        if(monDTO.getHinhAnh() != null){
-//            byte[] menuimage = monDTO.getHinhAnh();
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(menuimage,0,menuimage.length);
-//            viewholder.img_custommenu_HinhMon.setImageBitmap(bitmap);
-//        }else {
-//            viewholder.img_custommenu_HinhMon.setImageResource(R.drawable.cafe_americano);
-//        }
+        if(drinkDTO.getImage() != null){
+            byte[] menuimage = drinkDTO.getImage();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(menuimage,0,menuimage.length);
+            viewholder.img_custommenu_HinhMon.setImageBitmap(bitmap);
+        }else {
+            viewholder.img_custommenu_HinhMon.setImageResource(R.drawable.cafe_americano);
+        }
 
         return view;
     }

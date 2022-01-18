@@ -3,14 +3,6 @@ package com.sinhvien.coffee_mobileapp.Fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +15,13 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.sinhvien.coffee_mobileapp.Activities.AddMenuActivity;
 import com.sinhvien.coffee_mobileapp.Activities.AmountMenuActivity;
 import com.sinhvien.coffee_mobileapp.Activities.HomeActivity;
@@ -33,11 +32,10 @@ import com.sinhvien.coffee_mobileapp.R;
 
 import java.util.List;
 
-
 public class DisplayMenuFragment extends Fragment {
 
-    int maloai, maban;
-    String tenloai,tinhtrang;
+    int maloai=0, maban=0, status=0;
+    String tenloai;
     GridView gvDisplayMenu;
     DrinkDAO drinkDAO;
     List<DrinkDTO> listDrink;
@@ -81,7 +79,6 @@ public class DisplayMenuFragment extends Fragment {
         drinkDAO = new DrinkDAO();
 
         gvDisplayMenu = (GridView)view.findViewById(R.id.gvDisplayMenu);
-
         Bundle bundle = getArguments();
         if(bundle !=null){
             maloai = bundle.getInt("maloai");
@@ -93,9 +90,9 @@ public class DisplayMenuFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //nếu lấy đc mã bàn mới mở
-//                    tinhtrang = monDTOList.get(position).getTinhTrang();
+                    status = listDrink.get(position).getStatus();
                     if(maban != 0){
-                        if(tinhtrang.equals("true")){
+                        if(status == 1){
                             Intent iAmount = new Intent(getActivity(), AmountMenuActivity.class);
                             iAmount.putExtra("maban",maban);
                             iAmount.putExtra("mamon",listDrink.get(position).getId());
@@ -113,7 +110,7 @@ public class DisplayMenuFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(event.getAction() == KeyEvent.ACTION_DOWN){
-                    getParentFragmentManager().popBackStack("hienthiloai", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                     getParentFragmentManager().popBackStack("hienthiloai", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
                 return false;
             }
@@ -124,7 +121,7 @@ public class DisplayMenuFragment extends Fragment {
 
     //tạo 1 menu context show lựa chọn
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu,View v,ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getActivity().getMenuInflater().inflate(R.menu.edit_delete_context_menu,menu);
     }
@@ -147,15 +144,15 @@ public class DisplayMenuFragment extends Fragment {
                 break;
 
             case R.id.itDelete:
-//                boolean ktra = drinkDAO.DeleteDrink(mamon);
-//                if(ktra){
-//                    HienThiDSMon();
-//                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
-//                            ,Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
-//                            ,Toast.LENGTH_SHORT).show();
-//                }
+                boolean ktra = drinkDAO.DeleteDrink(mamon);
+                if(ktra){
+                    HienThiDSMon();
+                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
+                            ,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
+                            ,Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return true;
@@ -183,9 +180,11 @@ public class DisplayMenuFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
     private void HienThiDSMon(){
-        listDrink = drinkDAO.getDrinks();
+        listDrink = drinkDAO.getDrinkListByCaterogyId(maloai);
         adapterDisplayMenu = new AdapterDisplayMenu(getActivity(),R.layout.custom_layout_displaymenu,listDrink);
         gvDisplayMenu.setAdapter(adapterDisplayMenu);
         adapterDisplayMenu.notifyDataSetChanged();
     }
+
+
 }

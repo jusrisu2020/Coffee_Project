@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sinhvien.coffee_mobileapp.DAO.OrderDAO;
 import com.sinhvien.coffee_mobileapp.DAO.OrderDetailDAO;
+import com.sinhvien.coffee_mobileapp.DTO.OrderDTO;
+import com.sinhvien.coffee_mobileapp.DTO.OrderDetailDTO;
 import com.sinhvien.coffee_mobileapp.R;
 
 public class AmountMenuActivity extends AppCompatActivity {
@@ -46,40 +48,40 @@ public class AmountMenuActivity extends AppCompatActivity {
                     return;
                 }
 
-//                int madondat = (int) donDatDAO.LayMaDonTheoMaBan(maban,"false");
-//                boolean ktra = chiTietDonDatDAO.KiemTraMonTonTai(madondat,mamon);
-//                if(ktra){
-//                    //update số lượng món đã chọn
-//                    int sluongcu = chiTietDonDatDAO.LaySLMonTheoMaDon(madondat,mamon);
-//                    int sluongmoi = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
-//                    int tongsl = sluongcu + sluongmoi;
-//
-//                    ChiTietDonDatDTO chiTietDonDatDTO = new ChiTietDonDatDTO();
-//                    chiTietDonDatDTO.setMaMon(mamon);
-//                    chiTietDonDatDTO.setMaDonDat(madondat);
-//                    chiTietDonDatDTO.setSoLuong(tongsl);
-//
-//                    boolean ktracapnhat = chiTietDonDatDAO.CapNhatSL(chiTietDonDatDTO);
-//                    if(ktracapnhat){
-//                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
-//                    }else {
-//                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();
-//                    }
-//                }else {
-//                    //thêm số lượng món nếu chưa chọn món này
-//                    int sluong = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
-//                    ChiTietDonDatDTO chiTietDonDatDTO = new ChiTietDonDatDTO();
-//                    chiTietDonDatDTO.setMaMon(mamon);
-//                    chiTietDonDatDTO.setMaDonDat(madondat);
-//                    chiTietDonDatDTO.setSoLuong(sluong);
-//
-//                    boolean ktracapnhat = chiTietDonDatDAO.ThemChiTietDonDat(chiTietDonDatDTO);
-//                    if(ktracapnhat){
-//                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
-//                    }else {
-//                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();
-//                    }
-//                }
+                int madondat = (int) orderDAO.getOrderIdByTableId(maban);
+                boolean ktra = orderDetailDAO.CheckDrinkExists(madondat,mamon);
+                if(ktra){
+                    //update số lượng món đã chọn
+                    int sluongcu = orderDetailDAO.getDrinkNumberByOrderId(madondat,mamon);
+                    int sluongmoi = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
+                    int tongsl = sluongcu + sluongmoi;
+
+                    OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+                    orderDetailDTO.setDrinkId(mamon);
+                    orderDetailDTO.setOrderId(madondat);
+                    orderDetailDTO.setNumber(tongsl);
+
+                    boolean ktracapnhat = orderDetailDAO.UpdateNumber(orderDetailDTO);
+                    if(ktracapnhat){
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    //thêm số lượng món nếu chưa chọn món này
+                    int sluong = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
+                    OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+                    orderDetailDTO.setDrinkId(mamon);
+                    orderDetailDTO.setOrderId(madondat);
+                    orderDetailDTO.setDrinkId(sluong);
+
+                    boolean ktracapnhat = orderDetailDAO.CreateOrderDetail(orderDetailDTO);
+                    if(ktracapnhat){
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }

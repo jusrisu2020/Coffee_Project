@@ -11,7 +11,6 @@ create table users(
     date_of_birth date,
     -- status: 1.Hoạt động, 2.Khóa
     status int,
-    avatar text null,
     user_name varchar(100),
     password text
 );
@@ -21,8 +20,6 @@ values('Trần Minh Trí',1,'0357021254','2000-07-12',1,'admin','1');
 insert into users(full_name, gender, phone, date_of_birth, status, user_name, password) 
 values('Nguyễn Văn A',1,'0357021254','2000-07-12',1,'nva','1');
 
-UPDATE USERS SET status = 2 WHERE ID = 2;
-
 create table categories(
 	id int auto_increment primary key,
     category_name varchar(300)
@@ -31,19 +28,20 @@ insert into categories(category_name) values('Cà phê');
 insert into categories(category_name) values('Nước ép');
 insert into categories(category_name) values('Trà sữa');
 
+
 create table drinks(
 	id int auto_increment primary key,
     category_id int, FOREIGN KEY (category_id) REFERENCES categories(id),
     drink_name varchar(300),
-    description text,
-    image text null,
+    -- 1.Còn 2.Hết
+    status int,
     price float
 );
 
-insert into drinks(category_id, drink_name, description, price) 
-values(1,'Cà phê đá', 'Cà phê uống bao phê',15000);
-insert into drinks(category_id, drink_name, description, price) 
-values(1,'Cà phê đá', 'Cà phê sữa đá uống bao đã',20000);
+insert into drinks(category_id, drink_name, status, price) 
+values(1,'Cà phê đá', 1,15000);
+insert into drinks(category_id, drink_name, status, price) 
+values(1,'Cà phê sữa đá', 1,20000);
 
 
 
@@ -59,26 +57,27 @@ insert into tables(table_name) values('Bàn 2');
 insert into tables(table_name) values('Bàn 3');
 insert into tables(table_name) values('Bàn 4');
 
-UPDATE TABLES SET TABLE_NAME = 'Bàn 4s' WHERE ID = 4;
-
-DELETE FROM TABLES WHERE ID = 5;
-
 create table orders(
 	id int auto_increment primary key,
 	table_id int, FOREIGN KEY (table_id) REFERENCES tables(id),
-    staff_id int, FOREIGN KEY (staff_id) REFERENCES users(id),
+    user_id int, FOREIGN KEY (user_id) REFERENCES users(id),
     -- status: 1.Chưa thanh toán, 2.Đã thanh toán
     status int default 1,
     booking_date text,
     total float
 );
-SELECT * FROM ORDERS WHERE BOOKING_DATE LIKE '17';
-insert into orders(table_id, staff_id, booking_date,total) values(1,1,date_format(curdate(),'%d-%m-%Y'),15000);
+
+insert into orders(table_id, user_id, booking_date,total) values(1,1,date_format(curdate(),'%d-%m-%Y'),15000);
+
 
 create table order_details(
 	order_id int, FOREIGN KEY (order_id) REFERENCES orders(id),
 	drink_id int, FOREIGN KEY (drink_id) REFERENCES drinks(id),
     number int
 );
-
+SELECT count(*) FROM order_details WHERE drink_id = 1 and order_id = 1;
+UPDATE order_details SET number = 2 where order_id = 1;
 insert into order_details(order_id, drink_id, number) values(1,1,1);
+insert into order_details(order_id, drink_id, number) values(1,2,1);
+
+

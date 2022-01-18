@@ -35,7 +35,6 @@ public class DisplayUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.displayuser_layout,container,false);
         ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Quản lý người dùng");
-        setHasOptionsMenu(true);
         gvUser = (GridView)view.findViewById(R.id.gvUser) ;
         userDAO = new UserDAO();
         showUsers();

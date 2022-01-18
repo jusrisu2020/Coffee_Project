@@ -13,12 +13,15 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.sinhvien.coffee_mobileapp.Activities.PaymentActivity;
+import com.sinhvien.coffee_mobileapp.DAO.OrderDAO;
 import com.sinhvien.coffee_mobileapp.DAO.TableDAO;
 import com.sinhvien.coffee_mobileapp.DTO.TableDTO;
 import com.sinhvien.coffee_mobileapp.Activities.HomeActivity;
 //import com.sinhvien.coffee_mobileapp.Activities.PaymentActivity;
 
 //import com.sinhvien.coffee_mobileapp.Fragments.DisplayCategoryFragment;
+import com.sinhvien.coffee_mobileapp.Fragment.DisplayCategoryFragment;
 import com.sinhvien.coffee_mobileapp.R;
 
 import java.text.SimpleDateFormat;
@@ -32,7 +35,7 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
     List<TableDTO> listTable;
     ViewHolder viewHolder;
     TableDAO tableDAO;
-//    DonDatDAO donDatDAO;
+    OrderDAO orderDAO;
     FragmentManager fragmentManager;
 
     public AdapterDisplayTable(Context context, int layout, List<TableDTO> listTable){
@@ -40,7 +43,7 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         this.layout = layout;
         this.listTable = listTable;
         tableDAO = new TableDAO();
-//        donDatDAO = new DonDatDAO(context);
+        orderDAO = new OrderDAO();
         fragmentManager = ((HomeActivity)context).getSupportFragmentManager();
     }
 
@@ -131,41 +134,26 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
 
             case R.id.img_customtable_GoiMon:
                 Intent getIHome = ((HomeActivity)context).getIntent();
-                int manv = getIHome.getIntExtra("manv",0);
-//                String tinhtrang = tableDAO.(maban);
-//
-//                if(tinhtrang.equals("false")){
-//                    //Thêm bảng gọi món và update tình trạng bàn
-//                    DonDatDTO donDatDTO = new DonDatDTO();
-//                    donDatDTO.setMaBan(maban);
-//                    donDatDTO.setMaNV(manv);
-//                    donDatDTO.setNgayDat(ngaydat);
-//                    donDatDTO.setTinhTrang("false");
-//                    donDatDTO.setTongTien("0");
-//
-//                    long ktra = donDatDAO.ThemDonDat(donDatDTO);
-//                    banAnDAO.CapNhatTinhTrangBan(maban,"true");
-//                    if(ktra == 0){ Toast.makeText(context,context.getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show(); }
-//                }
+
                 //chuyển qua trang category
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                DisplayCategoryFragment displayCategoryFragment = new DisplayCategoryFragment();
+                DisplayCategoryFragment displayCategoryFragment = new DisplayCategoryFragment();
 
                 Bundle bDataCategory = new Bundle();
                 bDataCategory.putInt("maban",maban);
-//                displayCategoryFragment.setArguments(bDataCategory);
+                displayCategoryFragment.setArguments(bDataCategory);
 
-//                transaction.replace(R.id.contentView,displayCategoryFragment).addToBackStack("hienthibanan");
+                transaction.replace(R.id.contentView,displayCategoryFragment).addToBackStack("hienthibanan");
                 transaction.commit();
                 break;
 
             case R.id.img_customtable_ThanhToan:
                 //chuyển dữ liệu qua trang thanh toán
-//                Intent iThanhToan = new Intent(context, PaymentActivity.class);
-//                iThanhToan.putExtra("maban",maban);
-//                iThanhToan.putExtra("tenban",tenban);
-//                iThanhToan.putExtra("ngaydat",ngaydat);
-//                context.startActivity(iThanhToan);
+                Intent iThanhToan = new Intent(context, PaymentActivity.class);
+                iThanhToan.putExtra("maban",maban);
+                iThanhToan.putExtra("tenban",tenban);
+                iThanhToan.putExtra("ngaydat",ngaydat);
+                context.startActivity(iThanhToan);
                 break;
         }
     }

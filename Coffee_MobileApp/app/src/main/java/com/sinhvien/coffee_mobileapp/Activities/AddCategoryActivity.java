@@ -36,25 +36,7 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
     TextInputLayout TXTL_addcategory_TenLoai;
     CategoryDAO categoryDAO;
     int maloai = 0;
-    Bitmap bitmapold;   //Bitmap dạng ảnh theo ma trận các pixel
-
-    //dùng result launcher do activityforresult ko dùng đc nữa
-    ActivityResultLauncher<Intent> resultLauncherOpenIMG = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if(result.getResultCode() == Activity.RESULT_OK && result.getData() != null){
-                        Uri uri = result.getData().getData();
-                        try{
-                            InputStream inputStream = getContentResolver().openInputStream(uri);
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            IMG_addcategory_ThemHinh.setImageBitmap(bitmap);
-                        }catch (FileNotFoundException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
+    Bitmap bitmapold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +60,11 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
         maloai = getIntent().getIntExtra("maloai",0);
         if(maloai != 0){
             TXT_addcategory_title.setText(getResources().getString(R.string.editcategory));
-//            CategoryDTO categoryDTO = categoryDAO.LayLoaiMonTheoMa(maloai);
-//
-//            //Hiển thị lại thông tin từ csdl
-//            TXTL_addcategory_TenLoai.getEditText().setText(loaiMonDTO.getTenLoai());
-//
-//            byte[] categoryimage = loaiMonDTO.getHinhAnh();
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(categoryimage,0,categoryimage.length);
-//            IMG_addcategory_ThemHinh.setImageBitmap(bitmap);
-//
-//            BTN_addcategory_TaoLoai.setText("Sửa loại");
+            CategoryDTO categoryDTO = categoryDAO.getCategoryById(maloai);
+
+            //Hiển thị lại thông tin từ csdl
+            TXTL_addcategory_TenLoai.getEditText().setText(categoryDTO.getCategoryName());
+            BTN_addcategory_TaoLoai.setText("Sửa loại");
         }
         //endregion
 
@@ -107,60 +84,30 @@ public class AddCategoryActivity extends AppCompatActivity implements View.OnCli
                 overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right); //animation
                 break;
 
-            case R.id.img_addcategory_ThemHinh:
-                Intent iGetIMG = new Intent();
-                iGetIMG.setType("image/*"); //lấy những mục chứa hình ảnh
-                iGetIMG.setAction(Intent.ACTION_GET_CONTENT);   //lấy mục hiện tại đang chứa hình
-                resultLauncherOpenIMG.launch(Intent.createChooser(iGetIMG,getResources().getString(R.string.choseimg)));    //mở intent chọn hình ảnh
-                break;
-
             case R.id.btn_addcategory_TaoLoai:
-                if(!validateImage() | !validateName()){
+                if(!validateName()){
                     return;
                 }
 
                 String sTenLoai = TXTL_addcategory_TenLoai.getEditText().getText().toString();
                 CategoryDTO categoryDTO = new CategoryDTO();
                 categoryDTO.setCategoryName(sTenLoai);
-//                categoryDTO.set(imageViewtoByte(IMG_addcategory_ThemHinh));
-//                if(maloai != 0){
-//                    ktra = loaiMonDAO.SuaLoaiMon(loaiMonDTO,maloai);
-//                    chucnang = "sualoai";
-//                }else {
-//                    ktra = loaiMonDAO.ThemLoaiMon(loaiMonDTO);
-//                    chucnang = "themloai";
-//                }
+                if(maloai != 0){
+                    ktra = categoryDAO.EditCategory(categoryDTO,maloai);
+                    chucnang = "sualoai";
+                }else {
+                    ktra = categoryDAO.CreateCategory(categoryDTO);
+                    chucnang = "themloai";
+                }
 
                 //Thêm, sửa loại dựa theo obj loaimonDTO
-//                Intent intent = new Intent();
-//                intent.putExtra("ktra",ktra);
-//                intent.putExtra("chucnang",chucnang);
-//                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("ktra",ktra);
+                intent.putExtra("chucnang",chucnang);
+                setResult(RESULT_OK,intent);
                 finish();
                 break;
 
-        }
-    }
-
-    //Chuyển ảnh bitmap về mảng byte lưu vào csdl
-    private byte[] imageViewtoByte(ImageView imageView){
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
-        byte[] byteArray = stream.toByteArray();
-        return byteArray;
-    }
-
-    //region validate fields
-    private boolean validateImage(){
-        BitmapDrawable drawable = (BitmapDrawable)IMG_addcategory_ThemHinh.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
-        if(bitmap == bitmapold){
-            Toast.makeText(getApplicationContext(),"Xin chọn hình ảnh",Toast.LENGTH_SHORT).show();
-            return false;
-        }else {
-            return true;
         }
     }
 

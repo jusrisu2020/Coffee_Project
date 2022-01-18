@@ -9,6 +9,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sinhvien.coffee_mobileapp.Adapter.AdapterDisplayPayment;
+import com.sinhvien.coffee_mobileapp.DAO.PaymentDAO;
+import com.sinhvien.coffee_mobileapp.DAO.TableDAO;
+import com.sinhvien.coffee_mobileapp.DAO.UserDAO;
+import com.sinhvien.coffee_mobileapp.DTO.PaymentDTO;
 import com.sinhvien.coffee_mobileapp.R;
 
 import java.util.List;
@@ -21,11 +26,11 @@ public class DetailStatisticActivity extends AppCompatActivity {
     GridView gvDetailStatistic;
     int madon, manv, maban;
     String ngaydat, tongtien;
-//    NhanVienDAO nhanVienDAO;
-//    BanAnDAO banAnDAO;
-//    List<ThanhToanDTO> thanhToanDTOList;
-//    ThanhToanDAO thanhToanDAO;
-//    AdapterDisplayPayment adapterDisplayPayment;
+    UserDAO userDAO;
+    TableDAO tableDAO;
+    List<PaymentDTO> listPayment;
+    PaymentDAO paymentDAO;
+    AdapterDisplayPayment adapterDisplayPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +81,10 @@ public class DetailStatisticActivity extends AppCompatActivity {
         });
     }
 
-//    private void HienThiDSCTDD(){
-//        thanhToanDTOList = thanhToanDAO.LayDSMonTheoMaDon(madon);
-//        adapterDisplayPayment = new AdapterDisplayPayment(this,R.layout.custom_layout_paymentmenu,thanhToanDTOList);
-//        gvDetailStatistic.setAdapter(adapterDisplayPayment);
-//        adapterDisplayPayment.notifyDataSetChanged();
-//    }
+    private void HienThiDSCTDD(){
+        listPayment = paymentDAO.getDrinkByOrderId(madon);
+        adapterDisplayPayment = new AdapterDisplayPayment(this,R.layout.custom_layout_paymentmenu,listPayment);
+        gvDetailStatistic.setAdapter(adapterDisplayPayment);
+        adapterDisplayPayment.notifyDataSetChanged();
+    }
 }

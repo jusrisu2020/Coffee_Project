@@ -59,9 +59,8 @@ public class AdapterDisplayCategory extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        CategoryDTO loaiMonDTO = listCategory.get(position);
-
-        viewHolder.txt_customcategory_TenLoai.setText(loaiMonDTO.getCategoryName());
+        CategoryDTO categoryDTO = listCategory.get(position);
+        viewHolder.txt_customcategory_TenLoai.setText(categoryDTO.getCategoryName());
 
         return view;
     }

@@ -38,9 +38,9 @@ public class DisplayCategoryFragment extends Fragment {
     GridView gvCategory;
     List<CategoryDTO> listCategory;
     CategoryDAO categoryDAO;
-    AdapterDisplayCategory adapterDisplayCategory;
+    AdapterDisplayCategory adapter;
     FragmentManager fragmentManager;
-    int tableId;
+    int maban;
 
     ActivityResultLauncher<Intent> resultLauncherCategory = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -71,7 +71,6 @@ public class DisplayCategoryFragment extends Fragment {
                 }
             });
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -88,7 +87,7 @@ public class DisplayCategoryFragment extends Fragment {
 
         Bundle bDataCategory = getArguments();
         if(bDataCategory != null){
-            tableId = bDataCategory.getInt("maban");
+            maban = bDataCategory.getInt("maban");
         }
 
         gvCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,26 +96,24 @@ public class DisplayCategoryFragment extends Fragment {
                 int maloai = listCategory.get(position).getId();
                 String tenloai = listCategory.get(position).getCategoryName();
                 DisplayMenuFragment displayMenuFragment = new DisplayMenuFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("maloai",maloai);
-//                bundle.putString("tenloai",tenloai);
-//                bundle.putInt("maban",maban);
-//                displayMenuFragment.setArguments(bundle);
+                Bundle bundle = new Bundle();
+                bundle.putInt("maloai",maloai);
+                bundle.putString("tenloai",tenloai);
+                bundle.putInt("maban",maban);
+                displayMenuFragment.setArguments(bundle);
 
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.contentView,displayMenuFragment).addToBackStack("hienthiloai");
                 transaction.commit();
             }
         });
-
         registerForContextMenu(gvCategory);
-
         return view;
     }
 
     //hiển thị contextmenu
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu,View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getActivity().getMenuInflater().inflate(R.menu.edit_delete_context_menu,menu);
     }
@@ -137,24 +134,23 @@ public class DisplayCategoryFragment extends Fragment {
                 break;
 
             case R.id.itDelete:
-//                boolean ktra = categoryDAO.XoaLoaiMon(maloai);
-//                if(ktra){
-//                    HienThiDSLoai();
-//                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
-//                            ,Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
-//                            ,Toast.LENGTH_SHORT).show();
-//                }
+                boolean ktra = categoryDAO.DeleteCategory(maloai);
+                if(ktra){
+                    HienThiDSLoai();
+                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
+                            ,Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_failed)
+                            ,Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
-
         return true;
     }
 
     //khởi tạo nút thêm loại
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         MenuItem itAddCategory = menu.add(1,R.id.itAddCategory,1,R.string.addCategory);
         itAddCategory.setIcon(R.drawable.ic_baseline_add_24);
@@ -177,8 +173,8 @@ public class DisplayCategoryFragment extends Fragment {
     //hiển thị dữ liệu trên gridview
     private void HienThiDSLoai(){
         listCategory = categoryDAO.getCategories();
-        adapterDisplayCategory = new AdapterDisplayCategory(getActivity(),R.layout.custom_layout_displaycategory,listCategory);
-        gvCategory.setAdapter(adapterDisplayCategory);
-        adapterDisplayCategory.notifyDataSetChanged();
+        adapter = new AdapterDisplayCategory(getActivity(),R.layout.custom_layout_displaycategory,listCategory);
+        gvCategory.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

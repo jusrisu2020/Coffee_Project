@@ -13,22 +13,30 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.sinhvien.coffee_mobileapp.Adapter.AdapterDisplayCategory;
+import com.sinhvien.coffee_mobileapp.DAO.CategoryDAO;
 import com.sinhvien.coffee_mobileapp.DAO.DrinkDAO;
+import com.sinhvien.coffee_mobileapp.DTO.CategoryDTO;
+import com.sinhvien.coffee_mobileapp.DTO.DrinkDTO;
 import com.sinhvien.coffee_mobileapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 public class AddMenuActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -40,10 +48,10 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     RadioGroup RG_addmenu_TinhTrang;
     RadioButton RD_addmenu_ConMon, RD_addmenu_HetMon;
     DrinkDAO drinkDAO;
-    String tenloai, sTenMon,sGiaTien,sTinhTrang;
+    String tenloai, sTenMon,sGiaTien;
     Bitmap bitmapold;
     int maloai;
-    int mamon = 0;
+    int mamon = 0,status = 0;
 
     ActivityResultLauncher<Intent> resultLauncherOpenIMG = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -86,7 +94,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         maloai = intent.getIntExtra("maLoai",-1);
         tenloai = intent.getStringExtra("tenLoai");
-        drinkDAO = new DrinkDAO();  //khởi tạo đối tượng dao kết nối csdl
+        drinkDAO = new DrinkDAO();
         TXTL_addmenu_LoaiMon.getEditText().setText(tenloai);
 
         BitmapDrawable olddrawable = (BitmapDrawable)IMG_addmenu_ThemHinh.getDrawable();
@@ -96,22 +104,22 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         mamon = getIntent().getIntExtra("mamon",0);
         if(mamon != 0){
             TXT_addmenu_title.setText("Sửa thực đơn");
-//            DrinkDAO monDTO = drinkDAO.LayMonTheoMa(mamon);
+            DrinkDTO drinkDTO = drinkDAO.getDrinkById(mamon);
 
-//            TXTL_addmenu_TenMon.getEditText().setText(monDTO.getTenMon());
-//            TXTL_addmenu_GiaTien.getEditText().setText(monDTO.getGiaTien());
+            TXTL_addmenu_TenMon.getEditText().setText(drinkDTO.getDrinkName());
+            TXTL_addmenu_GiaTien.getEditText().setText(drinkDTO.getPrice()+"");
 
-//            byte[] menuimage = monDTO.getHinhAnh();
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(menuimage,0,menuimage.length);
-//            IMG_addmenu_ThemHinh.setImageBitmap(bitmap);
+            byte[] menuimage = drinkDTO.getImage();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(menuimage,0,menuimage.length);
+            IMG_addmenu_ThemHinh.setImageBitmap(bitmap);
 
             layout_trangthaimon.setVisibility(View.VISIBLE);
-//            String tinhtrang = monDTO.getTinhTrang();
-//            if(tinhtrang.equals("true")){
-//                RD_addmenu_ConMon.setChecked(true);
-//            }else {
-//                RD_addmenu_HetMon.setChecked(true);
-//            }
+            int status = drinkDTO.getStatus();
+            if(status == 1){
+                RD_addmenu_ConMon.setChecked(true);
+            }else {
+                RD_addmenu_HetMon.setChecked(true);
+            }
 
             BTN_addmenu_ThemMon.setText("Sửa món");
         }
@@ -150,29 +158,29 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                 sTenMon = TXTL_addmenu_TenMon.getEditText().getText().toString();
                 sGiaTien = TXTL_addmenu_GiaTien.getEditText().getText().toString();
                 switch (RG_addmenu_TinhTrang.getCheckedRadioButtonId()){
-                    case R.id.rd_addmenu_ConMon: sTinhTrang = "true";   break;
-                    case R.id.rd_addmenu_HetMon: sTinhTrang = "false";  break;
+                    case R.id.rd_addmenu_ConMon: status = 1;   break;
+                    case R.id.rd_addmenu_HetMon: status = 2;  break;
                 }
 
-//                MonDTO monDTO = new MonDTO();
-//                monDTO.setMaLoai(maloai);
-//                monDTO.setTenMon(sTenMon);
-//                monDTO.setGiaTien(sGiaTien);
-//                monDTO.setTinhTrang(sTinhTrang);
-//                monDTO.setHinhAnh(imageViewtoByte(IMG_addmenu_ThemHinh));
-//                if(mamon!= 0){
-//                    ktra = monDAO.SuaMon(monDTO,mamon);
-//                    chucnang = "suamon";
-//                }else {
-//                    ktra = monDAO.ThemMon(monDTO);
-//                    chucnang = "themmon";
-//                }
+                DrinkDTO drinkDTO = new DrinkDTO();
+                drinkDTO.setId(maloai);
+                drinkDTO.setDrinkName(sTenMon);
+                drinkDTO.setPrice(Integer.parseInt(sGiaTien));
+                drinkDTO.setStatus(status);
+                drinkDTO.setImage(imageViewtoByte(IMG_addmenu_ThemHinh));
+                if(mamon!= 0){
+                    ktra = drinkDAO.EditDrink(drinkDTO,mamon);
+                    chucnang = "suamon";
+                }else {
+                    ktra = drinkDAO.CreateDrink(drinkDTO);
+                    chucnang = "themmon";
+                }
 
                 //Thêm, sửa món dựa theo obj loaimonDTO
-//                Intent intent = new Intent();
-//                intent.putExtra("ktra",ktra);
-//                intent.putExtra("chucnang",chucnang);
-//                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("ktra",ktra);
+                intent.putExtra("chucnang",chucnang);
+                setResult(RESULT_OK,intent);
                 finish();
 
                 break;
@@ -227,4 +235,6 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
             return true;
         }
     }
+    //endregion
+
 }

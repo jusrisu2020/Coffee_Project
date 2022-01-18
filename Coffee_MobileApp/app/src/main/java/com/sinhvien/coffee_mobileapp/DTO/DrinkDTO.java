@@ -2,9 +2,9 @@ package com.sinhvien.coffee_mobileapp.DTO;
 
 public class DrinkDTO {
 
-    int Id, CategoryId;
+    int Id, CategoryId, Status;
     float price;
-    String DrinkName,Description;
+    String DrinkName;
     byte[] Image;
 
     public int getId() {
@@ -23,6 +23,14 @@ public class DrinkDTO {
         CategoryId = categoryId;
     }
 
+    public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -37,14 +45,6 @@ public class DrinkDTO {
 
     public void setDrinkName(String drinkName) {
         DrinkName = drinkName;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
     }
 
     public byte[] getImage() {

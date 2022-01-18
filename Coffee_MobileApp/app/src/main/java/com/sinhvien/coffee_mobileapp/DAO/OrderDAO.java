@@ -66,5 +66,23 @@ public class OrderDAO {
         return listOrder;
     }
 
+    public int getOrderIdByTableId(int tableId){
+        db = new Database();
+        Connection conn = db.getConnect();
+        int result = 0;
+        try {
+            if(conn != null){
+                Statement statement = conn.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM ORDERS WHERE TABLE_ID = "+tableId);
+                while (resultSet.next()){
+                    result = resultSet.getInt(1);
+                }
+            }
+        }catch (Exception e){
+            Log.e("Error",e.getMessage());
+        }
+        return result;
+    }
+
 
 }
