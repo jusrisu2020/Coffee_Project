@@ -60,15 +60,14 @@ insert into tables(table_name) values('Bàn 4');
 create table orders(
 	id int auto_increment primary key,
 	table_id int, FOREIGN KEY (table_id) REFERENCES tables(id),
-    user_id int, FOREIGN KEY (user_id) REFERENCES users(id),
     -- status: 1.Chưa thanh toán, 2.Đã thanh toán
     status int default 1,
     booking_date text,
     total float
 );
 
-insert into orders(table_id, user_id, booking_date,total) values(1,1,date_format(curdate(),'%d-%m-%Y'),15000);
-
+insert into orders(table_id, booking_date,total) values(1,date_format(curdate(),'%d-%m-%Y'),15000);
+select * from orders, order_details where drink_id = 1;
 
 create table order_details(
 	order_id int, FOREIGN KEY (order_id) REFERENCES orders(id),
@@ -78,6 +77,6 @@ create table order_details(
 SELECT count(*) FROM order_details WHERE drink_id = 1 and order_id = 1;
 UPDATE order_details SET number = 2 where order_id = 1;
 insert into order_details(order_id, drink_id, number) values(1,1,1);
-insert into order_details(order_id, drink_id, number) values(1,2,1);
+SELECT * FROM order_details WHERE drink_id = 1;
 
 
